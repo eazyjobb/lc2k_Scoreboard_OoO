@@ -14,9 +14,79 @@
                     <div class="ui center aligned huge header"> LC2k Scoreboard OoO </div>
                 </div>
             </div>
+            <div class="ui row">
+                <div class="ui four wide column">
+                    <table class="ui celled table">
+                        <thead> <tr>
+                            <th> Reg </th>
+                            <th> Tag </th>
+                        </tr> </thead>
+                        <tbody id="reg-status">
+                            <tr class="r0"> <td>r0</td> <td></td> </tr>
+                            <tr class="r1"> <td>r1</td> <td></td> </tr>
+                            <tr class="r2"> <td>r2</td> <td></td> </tr>
+                            <tr class="r3"> <td>r3</td> <td></td> </tr>
+                            <tr class="r4"> <td>r4</td> <td></td> </tr>
+                            <tr class="r5"> <td>r5</td> <td></td> </tr>
+                            <tr class="r6"> <td>r6</td> <td></td> </tr>
+                            <tr class="r7"> <td>r7</td> <td></td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ui twelve wide column">
+                    <table class="ui celled table">
+                        <thead> <tr>
+                            <th> INS </th>
+                            <th> D </th>
+                            <th> S </th>
+                            <th> X </th>
+                            <th> W </th>
+                            <th> </th>
+                        </tr> </thead>
+                        <tbody id="instruction">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="ui sixteen wide column">
+                    <table class="ui celled table">
+                        <thead> <tr>
+                            <th> FU </th>
+                            <th> busy </th>
+                            <th> op </th>
+                            <th> R </th>
+                            <th> R1 </th>
+                            <th> R2 </th>
+                            <th> T1 </th>
+                            <th> T2 </th>
+                        </tr> </thead>
+                        <tbody id="fu-status">
+                            <tr class="ALU"> <td>ALU1</td> <td class="busy"></td> <td class="op"></td> <td class="dest"></td> <td class="reg1"></td>
+                                <td class="reg2"></td> <td class="tag1"></td> <td class="tag2"></td> </tr>
+
+                            <tr class="ALU"> <td>ALU2</td> <td class="busy"></td> <td class="op"></td> <td class="dest"></td> <td class="reg1"></td>
+                                <td class="reg2"></td> <td class="tag1"></td> <td class="tag2"></td> </tr>
+
+                            <tr class="LD">  <td>LD</td>   <td class="busy"></td> <td class="op"></td> <td class="dest"></td> <td class="reg1"></td>
+                                <td class="reg2"></td> <td class="tag1"></td> <td class="tag2"></td> </tr>
+
+                            <tr class="SW">  <td>SW</td>   <td class="busy"></td> <td class="op"></td> <td class="dest"></td> <td class="reg1"></td>
+                                <td class="reg2"></td> <td class="tag1"></td> <td class="tag2"></td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="ui sixteen column">
+                    <button class="right floated positive ui button" id="new-ins">Add Instruction</button>
+                    <button class="right floated positive ui button" id="next">Next Circle</button>
+                </div>
+            </div>
         </div>
         <script language="javascript" type="text/javascript" src="js/jquery-3.0.0.js"> </script>
         <script language="javascript" type="text/javascript" src="js/sweetalert.min.js"> </script>
-        <script language="javascript" type="text/javascript" src="semantic/semantic.min.js"> $('.ui.dropdown').dropdown(); </script>
+        <script language="javascript" type="text/javascript" src="semantic/semantic.min.js"> </script>
+        <script language="javascript" type="text/javascript" src="js/ooo.js"> </script>
     </body>
 </html>
