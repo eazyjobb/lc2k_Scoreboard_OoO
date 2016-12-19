@@ -44,7 +44,7 @@ var add_ins = '<tr> <td>\
                                     <i class="dropdown icon"></i>\
                                     <div class="default text"> destReg </div>\
                                     <div class="menu">\
-                                        <div class="item" data-value="">No Need</div>\
+                                        <div class="item" data-value="">Offset</div>\
                                         <div class="item" data-value="1">reg1</div>\
                                         <div class="item" data-value="2">reg2</div>\
                                         <div class="item" data-value="3">reg3</div>\
@@ -54,12 +54,12 @@ var add_ins = '<tr> <td>\
                                         <div class="item" data-value="7">reg7</div>\
                                     </div>\
                                 </div>\
-                                OFFSET\
                             </td> <td>  </td> <td>  </td> <td>  </td> <td>  </td> <td>\
                             	<button class="negative ui compact button my-del">Delete</button>\
                             </td> </tr>';
 
 var tag = ['', '', '', '', '', '', '', ''];
+var read = [0, 0, 0, 0, 0, 0, 0, 0];
 var FU = [
 {
     busy: false,
@@ -183,8 +183,8 @@ function Try_D() {
                 FU[3].op = "SW";
                 FU[3].R1 = rA[i];
                 FU[3].R2 = rB[i];
-                FU[3].T1 = tag[FU[i].R1];
-                FU[3].T2 = tag[FU[i].R2];
+                FU[3].T1 = tag[FU[3].R1];
+                FU[3].T2 = tag[FU[3].R2];
                 ins_pos[i] = 3;
             }
 
@@ -193,10 +193,10 @@ function Try_D() {
                 FU[2].op = "LW";
                 FU[2].R1 = rA[i];
                 FU[2].R2 = rB[i];
-                FU[2].T1 = tag[FU[i].R1];
-                FU[2].T2 = tag[FU[i].R2];
+                FU[2].T1 = tag[FU[2].R1];
+                FU[2].T2 = tag[FU[2].R2];
                 tag[rB[i]] = "LW";
-                ins_pos[i] = 3;
+                ins_pos[i] = 2;
             }
 
             if (opt[i] == "ADD" || opt[i] == "NAND") {
@@ -208,8 +208,8 @@ function Try_D() {
                 FU[p].R1 = rA[i];
                 FU[p].R2 = rB[i];
                 FU[p].R = rD[i];
-                FU[p].T1 = tag[FU[i].R1];
-                FU[p].T2 = tag[FU[i].R2];
+                FU[p].T1 = tag[FU[p].R1];
+                FU[p].T2 = tag[FU[p].R2];
                 tag[rD[i]] = opt[i];
                 ins_pos[i] = p;
             }
@@ -232,6 +232,13 @@ function Try_S() {
                     continue;
             }
 
+            if (opt[i] == "LW") {
+                ++ read[rA[i]];
+            } else {
+                ++ read[rA[i]];
+                ++ read[rB[i]];
+            }
+
             $("#instruction tr:eq(" + i + ") td:eq(2)").html('C' + circle);
 
             ins_sta[i] ++;
@@ -243,6 +250,10 @@ function Try_X() {
     for (var i = 0; i < ins_sta.length; ++ i) {
         if (ins_sta[i] == 2) {
 
+            if (opt[i] == "LW")
+                ++ read[rB[i]];
+            --read[rA[i]];
+            --read[rB[i]];
             $("#instruction tr:eq(" + i + ") td:eq(3)").html('C' + circle);
 
             ins_sta[i] ++;
@@ -250,8 +261,47 @@ function Try_X() {
     }
 }
 
+function Try_W() {
+    for (var i = 0; i < ins_sta.length; ++ i) {
+        if (ins_sta[i] == 3) {
+            if (opt[i] == "LW") {
+                if (read[rB[i]] > 0)
+                    continue;
+            }
+            if (opt[i] == "ADD" || opt[i] == "NAND") {
+                if (read[rD[i]] > 0)
+                    continue;
+            }
+
+            FU[ins_pos[i]] = {busy: false,op:"",R:"",R1:"",R2:"",T1:"",T2:""};
+
+            if (opt[i] == "LW") {
+                tag[rB[i]] = '';
+                for (var j = 0; j < 4; ++ j) {
+                    if (FU[j].R1 == rB[i])
+                        FU[j].T1 = '';
+                    if (FU[j].R2 == rB[i])
+                        FU[j].T2 = '';
+                }
+            }
+            if (opt[i] == "ADD" || opt[i] == "NAND") {
+                tag[rD[i]] = '';
+                for (var j = 0; j < 4; ++ j) {
+                    if (FU[j].R1 == rD[i])
+                        FU[j].T1 = '';
+                    if (FU[j].R2 == rD[i])
+                        FU[j].T2 = '';
+                }
+            }
+
+            $("#instruction tr:eq(" + i + ") td:eq(4)").html('C' + circle);
+            ++ins_sta[i];
+        }
+    }
+}
+
 function Calculate() {
-    //Try_W();
+    Try_W();
     Try_X();
     Try_S();
     Try_D();
