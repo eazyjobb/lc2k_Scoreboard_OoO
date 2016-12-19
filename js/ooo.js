@@ -329,7 +329,7 @@ $(document).ready(function() {
             first = false;
             $('#new-ins').addClass('disabled');
             $('.ui.dropdown').addClass('disabled');
-            $(".my-del").remove();
+            $(".my-del").addClass('disabled');
         }
         if (first == false)
             Calculate();
