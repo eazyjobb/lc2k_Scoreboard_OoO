@@ -327,7 +327,7 @@ $(document).ready(function() {
                 return;
             }
             first = false;
-            $('#new-ins').remove();
+            $('#new-ins').addClass('disabled');
             $('.ui.dropdown').addClass('disabled');
             $(".my-del").remove();
         }
